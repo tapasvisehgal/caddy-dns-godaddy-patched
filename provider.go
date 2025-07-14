@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/libdns/libdns"
-	"github.com/libdns/libdns/dnsproviders"
 )
 
 type Provider struct {
