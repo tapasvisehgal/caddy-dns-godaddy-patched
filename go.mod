@@ -1,9 +1,7 @@
-module github.com/tapasvisehgal/caddy-dns-godaddy-patched
+module github.com/caddy-dns/godaddy
 
 go 1.20
 
-require (
-    github.com/libdns/libdns v0.2.1
-)
+require github.com/libdns/libdns v0.2.1
 
 replace github.com/libdns/libdns => github.com/libdns/libdns v0.2.1

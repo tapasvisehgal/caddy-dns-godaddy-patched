@@ -11,6 +11,7 @@ import (
 	"github.com/libdns/libdns"
 )
 
+// Provider facilitates DNS record management with GoDaddy.
 type Provider struct {
 	APIKey    string `json:"api_key"`
 	APISecret string `json:"api_secret"`
@@ -31,8 +32,8 @@ func (p *Provider) AppendRecords(ctx context.Context, zone string, records []lib
 			return nil, fmt.Errorf("only TXT records are supported")
 		}
 
-		name := strings.TrimSuffix(record.Name, "."+zone)
-		if name == zone {
+		name := record.Name // safe fallback; Name is populated during Append
+		if name == "" {
 			name = "@"
 		}
 
@@ -61,12 +62,13 @@ func (p *Provider) AppendRecords(ctx context.Context, zone string, records []lib
 
 func (p *Provider) DeleteRecords(ctx context.Context, zone string, records []libdns.Record) ([]libdns.Record, error) {
 	for _, record := range records {
-		name := strings.TrimSuffix(record.Name, "."+zone)
-		if name == zone {
+		name := record.Name
+		if name == "" {
 			name = "@"
 		}
 
 		url := fmt.Sprintf("https://api.godaddy.com/v1/domains/%s/records/TXT/%s", zone, name)
+
 		req, err := http.NewRequestWithContext(ctx, http.MethodDelete, url, nil)
 		if err != nil {
 			return nil, err
@@ -88,5 +90,5 @@ func (p *Provider) DeleteRecords(ctx context.Context, zone string, records []lib
 }
 
 func (p *Provider) GetRecords(ctx context.Context, zone string) ([]libdns.Record, error) {
-	return nil, errors.New("not implemented")
+	return nil, errors.New("GetRecords is not implemented (not needed for ACME)")
 }
