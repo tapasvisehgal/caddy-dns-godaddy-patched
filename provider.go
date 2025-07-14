@@ -28,11 +28,11 @@ func (p *Provider) setHeaders(req *http.Request) {
 
 func (p *Provider) AppendRecords(ctx context.Context, zone string, records []libdns.Record) ([]libdns.Record, error) {
 	for _, record := range records {
-		if record.Type != "TXT" {
+		if record.Type_ != "TXT" {
 			return nil, fmt.Errorf("only TXT records are supported")
 		}
 
-		name := record.Name // safe fallback; Name is populated during Append
+		name := record.Name_ // safe fallback; Name is populated during Append
 		if name == "" {
 			name = "@"
 		}
@@ -62,7 +62,7 @@ func (p *Provider) AppendRecords(ctx context.Context, zone string, records []lib
 
 func (p *Provider) DeleteRecords(ctx context.Context, zone string, records []libdns.Record) ([]libdns.Record, error) {
 	for _, record := range records {
-		name := record.Name
+		name := record.Name_
 		if name == "" {
 			name = "@"
 		}
