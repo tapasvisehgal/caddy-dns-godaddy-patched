@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/libdns/libdns"
+	"github.com/libdns/libdns/dnsproviders"
 )
 
 type Provider struct {
@@ -84,10 +85,6 @@ func (p *Provider) DeleteRecords(ctx context.Context, zone string, records []lib
 func (p *Provider) GetRecords(ctx context.Context, zone string) ([]libdns.Record, error) {
 	return nil, errors.New("not implemented")
 }
-
-import (
-	"github.com/libdns/libdns/dnsproviders"
-)
 
 func init() {
 	dnsproviders.Register("godaddy", func() libdns.Provider {
